@@ -3,7 +3,6 @@
 MATLAB implementation of six fundamental line codes on a shared random bit vector, with time-domain waveforms and Welch PSD analysis.
 
 [![MATLAB](https://img.shields.io/badge/MATLAB-R2023a%2B-orange?logo=mathworks)](https://mathworks.com)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](#license)
 
 ## Overview
 
@@ -34,7 +33,7 @@ The same 10-bit vector is encoded with six different rules and plotted on a comm
 | `Fs` / `Nsp` | 100 Hz / 100 samples/bit |
 | PSD | Welch `pwelch(...,Fs)` → `10·log10(P)`, `0–Fs/2` |
 
-## Code Structure — `src/Lab1_code.m:1-173`
+## Code Structure — `Lab1_code.m:1-173`
 
 ```matlab
 data = randi([0 1],1,N);          % random bits
@@ -42,14 +41,14 @@ t(i) = (i-1)/Fs;  half = Nsp/2;
 start = (k-1)*Nsp+1;  stop = k*Nsp;   % per-bit window
 ```
 
-Encoding loops `k=1..N` (`src/Lab1_code.m:20-92`): `s1` Polar NRZ fills `±A`; `s2` NRZ-I flips `level` on `1`; `s3` Polar RZ fills first half only; `s4`/`s5` Bipolar alternate `sign` on `1`s (full/half bit); `s6` Manchester splits `±A/∓A` at `half`. Plotting: `stairs` + `subplot(6,1,k)` (`src/Lab1_code.m:94-128`). PSD: `pwelch` in dB (`src/Lab1_code.m:130-170`).
+Encoding loops `k=1..N` (`Lab1_code.m:20-92`): `s1` Polar NRZ fills `±A`; `s2` NRZ-I flips `level` on `1`; `s3` Polar RZ fills first half only; `s4`/`s5` Bipolar alternate `sign` on `1`s (full/half bit); `s6` Manchester splits `±A/∓A` at `half`. Plotting: `stairs` + `subplot(6,1,k)` (`Lab1_code.m:94-128`). PSD: `pwelch` in dB (`Lab1_code.m:130-170`).
 
 ## Waveforms
 
 Same bit vector, same `Ts` — differences are purely the code.
 
 <p align="center">
-  <img src="assets/images/waveforms.jpg" alt="Six line-code waveforms" width="85%">
+  <img src="figures/waveforms.jpg" alt="Six line-code waveforms" width="85%">
   <br><em>Fig. 1 — MATLAB output: six waveforms (stairs, shared time axis).</em>
 </p>
 
@@ -64,7 +63,7 @@ Same bit vector, same `Ts` — differences are purely the code.
 Welch estimate, Hann window, dB scale, `0–50 Hz` (`Fs/2`). First null marks main-lobe bandwidth.
 
 <p align="center">
-  <img src="assets/images/psd.jpg" alt="Six PSDs" width="85%">
+  <img src="figures/psd.jpg" alt="Six PSDs" width="85%">
   <br><em>Fig. 2 — MATLAB output: Welch PSDs in dB (first null at Rb or 2Rb).</em>
 </p>
 
@@ -104,7 +103,7 @@ Manchester is widest because it toggles at `2Rb` (mid-bit transition every bit).
 
 ```matlab
 % In MATLAB (Signal Processing Toolbox for pwelch):
-Lab1_code   % from src/ or repo root
+Lab1_code   % run from repo root
 % → Figure "Waveforms" + Figure "Power Spectral Density"
 % → Console: Random bits:  0  1  1  0  ...
 ```
@@ -115,14 +114,10 @@ Console output is random each run (`randi`), so bit values vary — spectral sha
 
 ```
 .
-├── src/Lab1_code.m          # 173-line MATLAB script
-├── assets/images/
+├── Lab1_code.m              # 173-line MATLAB script
+├── figures/
 │   ├── waveforms.jpg        # Fig. 1 — original MATLAB waveforms
 │   └── psd.jpg              # Fig. 2 — original MATLAB PSD (dB)
 ├── .gitignore               # excludes Lab1_report.pdf (local only)
 └── README.md
 ```
-
-## License
-
-MIT
