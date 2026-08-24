@@ -1,0 +1,26 @@
+# Reports - not published
+Lab1_report.pdf
+*.pdf
+report/
+reports/
+
+# MATLAB
+*.asv
+*.mex*
+*.slx
+*.mdl
+*.mat
+matlab.mat
+octave-workspace
+
+# OS
+.DS_Store
+Thumbs.db
+*.swp
+*~
+
+# MATLAB figure backups
+*.fig.bak
+
+# Logs
+*.log
