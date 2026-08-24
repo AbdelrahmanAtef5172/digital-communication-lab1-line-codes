@@ -23,26 +23,6 @@ The same 10-bit vector is encoded with six different rules and plotted on a comm
 
 `A = 1`. The choice of code trades **bandwidth ↔ DC suppression ↔ clock recovery ↔ complexity**.
 
-## Simulation Parameters
-
-| Parameter | Value |
-|---|---|
-| `A` | 1 |
-| `N` | 10 random bits (`randi([0 1],1,N)`) |
-| `Ts` / `Rb` | 1 s / 1 Hz |
-| `Fs` / `Nsp` | 100 Hz / 100 samples/bit |
-| PSD | Welch `pwelch(...,Fs)` → `10·log10(P)`, `0–Fs/2` |
-
-## Code Structure — `Lab1_code.m:1-173`
-
-```matlab
-data = randi([0 1],1,N);          % random bits
-t(i) = (i-1)/Fs;  half = Nsp/2;
-start = (k-1)*Nsp+1;  stop = k*Nsp;   % per-bit window
-```
-
-Encoding loops `k=1..N` (`Lab1_code.m:20-92`): `s1` Polar NRZ fills `±A`; `s2` NRZ-I flips `level` on `1`; `s3` Polar RZ fills first half only; `s4`/`s5` Bipolar alternate `sign` on `1`s (full/half bit); `s6` Manchester splits `±A/∓A` at `half`. Plotting: `stairs` + `subplot(6,1,k)` (`Lab1_code.m:94-128`). PSD: `pwelch` in dB (`Lab1_code.m:130-170`).
-
 ## Waveforms
 
 Same bit vector, same `Ts` — differences are purely the code.
@@ -98,26 +78,3 @@ Manchester is widest because it toggles at `2Rb` (mid-bit transition every bit).
 | Bipolar NRZ | DC-free, error detect, BW=`B` | 3 levels, `0`-runs flat |
 | Bipolar RZ | DC-free, error detect, better clock | `2×` BW, 3 levels |
 | Manchester | Self-clocking, DC-free | `2×` BW (highest) |
-
-## Running the Lab
-
-```matlab
-% In MATLAB (Signal Processing Toolbox for pwelch):
-Lab1_code   % run from repo root
-% → Figure "Waveforms" + Figure "Power Spectral Density"
-% → Console: Random bits:  0  1  1  0  ...
-```
-
-Console output is random each run (`randi`), so bit values vary — spectral shapes and trade-offs do not.
-
-## Repository Structure
-
-```
-.
-├── Lab1_code.m              # 173-line MATLAB script
-├── figures/
-│   ├── waveforms.jpg        # Fig. 1 — original MATLAB waveforms
-│   └── psd.jpg              # Fig. 2 — original MATLAB PSD (dB)
-├── .gitignore               # excludes Lab1_report.pdf (local only)
-└── README.md
-```
